@@ -8,7 +8,8 @@ angular.module('ionic-timepicker.provider', [])
       closeLabel: 'Close',
       inputTime: (((new Date()).getHours() * 60 * 60) + ((new Date()).getMinutes() * 60)),
       format: 12,
-      step: 15
+      step: 15,
+      clearOnClose: false
     };
 
     this.configTimePicker = function (inputObj) {
@@ -124,6 +125,16 @@ angular.module('ionic-timepicker.provider', [])
         setMinSecs($scope.mainObj.inputTime, $scope.mainObj.format);
 
         buttons.push({
+          text: $scope.mainObj.closeLabel,
+          type: 'button_close',
+          onTap: function (e) {
+            if ($scope.mainObj.clearOnClose) {
+              $scope.mainObj.callback(void 0);
+            }
+          }
+        });
+
+        buttons.push({
           text: $scope.mainObj.setLabel,
           type: 'button_set',
           onTap: function (e) {
@@ -142,11 +153,6 @@ angular.module('ionic-timepicker.provider', [])
             }
             $scope.mainObj.callback(totalSec);
           }
-        });
-
-        buttons.push({
-          text: $scope.mainObj.closeLabel,
-          type: 'button_close'
         });
 
         $scope.popup = $ionicPopup.show({
